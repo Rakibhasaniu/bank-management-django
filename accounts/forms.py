@@ -1,3 +1,4 @@
+from typing import Any
 from django.contrib.auth.forms import UserCreationForm
 from .constants import ACCOUNT_TYPE,GENDER_TYPE
 from django import forms
@@ -83,3 +84,16 @@ class UserRegisterForm(UserCreationForm):
                 account_no = 100000+ our_user.id
             )
         return our_user
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({
+                
+                'class' : (
+                    'appearance-none block w-full bg-gray-200 '
+                    'text-gray-700 border border-gray-200 rounded '
+                    'py-3 px-4 leading-tight focus:outline-none '
+                    'focus:bg-white focus:border-gray-500'
+                ) 
+            })
