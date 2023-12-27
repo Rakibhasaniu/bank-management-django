@@ -15,7 +15,8 @@ class UserRegisterView(FormView):
     
     def form_valid(self, form):
         user= form.save()
-        login(user)
+        login(self.request,user)
+        print(user)
         return super().form_valid(form)
     
     
