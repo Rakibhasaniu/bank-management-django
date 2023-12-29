@@ -12,15 +12,16 @@ from datetime import datetime
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404, redirect
 from django.views import View
+from django.urls import reverse_lazy
 
 # Create your views here.
 
 
 class TransactionCreateMixin(LoginRequiredMixin,CreateView):
-    template_name=''
+    template_name='transactions/transaction_form.html'
     model = Transaction
     title=''
-    success_url=''
+    success_url=reverse_lazy('transaction_report')
     
     def get_form_kwargs(self):
         kwargs=super().get_form_kwargs()
@@ -33,6 +34,7 @@ class TransactionCreateMixin(LoginRequiredMixin,CreateView):
         context.update({
             'title': self.title
         })
+        return context
 
 
 class DepositeView(TransactionCreateMixin):
@@ -169,5 +171,5 @@ class LoanListView(LoginRequiredMixin,ListView):
     def get_queryset(self):
         user_account = self.request.user.account
         queryset = Transaction.objects.filter(account=user_account,transaction_type=3)
-        print(queryset)
+        
         return queryset
